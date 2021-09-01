@@ -2,13 +2,22 @@ const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('search-btn')
 const totalBookfound = document.getElementById('totalBook-found')
 const bookContainer = document.getElementById('book-container')
+const errorDiv = document.getElementById('error');
+
 
 searchButton.addEventListener('click', function () {
     const searchText = searchInput.value;
+    if (searchText === '') {
+        errorDiv.innerText = "Search Field Cannot Be Empty";
+        return;
+    }
 
+    errorDiv.innerText = '';
     searchInput.value = '';
     totalBookfound.innerHTML = '';
     bookContainer.innerHTML = '';
+
+
 
 
     const url = ` http://openlibrary.org/search.json?q=${searchText}`
@@ -21,22 +30,25 @@ searchButton.addEventListener('click', function () {
 
 
 function bookData(booksArray) {
+
     const total = booksArray.num_found;
 
+
     const totalDiv = document.createElement('div');
-    totalDiv.innerHTML = `<h3>Number Of Total Book Found:${total}</h3>`
+    totalDiv.innerHTML = `<h3>Number of Total Book Found:${total}</h3>`
     totalBookfound.appendChild(totalDiv);
 
 
     const books = booksArray.docs
+
     books.forEach(item => {
-        console.log(item);
+        // console.log(item);
 
         const div = document.createElement('div')
         div.classList.add('col-md-4')
         div.innerHTML = `
         <div class="rounded overflow-hidden border p-2">
-      <img src= class="w-100" alt=""/>
+      <img src=https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg class="w-100" alt=""/>   
     </div>
     
     <div
