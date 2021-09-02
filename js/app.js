@@ -63,9 +63,9 @@ const bookData = (booksArray) => {
     <div
       class="py-2 d-flex justify-content-between align-items-center d-md-block text-md-center">
       <h3 class='text-danger'>${item.title}</h3>
-      <h5>Author: ${item.author_name}</h5>
+      <h5>Author: ${item.author_name?.[0]}</h5>
       <p>First Published: ${item.first_publish_year}</P>
-      <p>Publisher: ${item.publisher}</p>
+      <p>Publisher: ${item.publisher?.[0]}</p>
       
     </div>`;
         bookContainer.appendChild(div)
