@@ -6,16 +6,18 @@ const errorDiv = document.getElementById('error');
 const spinner = document.getElementById('spinner')
 
 
+// search button event
 const searchButton = () => {
     const searchText = searchInput.value;
 
+    // Error Message
     if (searchText === '') {
         errorDiv.innerText = "Search Field Cannot Be Empty";
         return;
     }
     spinner.classList.remove('d-none')
 
-
+    // empty the values
     errorDiv.innerText = '';
     searchInput.value = '';
     totalBookfound.innerHTML = '';
@@ -23,7 +25,7 @@ const searchButton = () => {
 
 
 
-
+    // Api fetching
     const url = ` https://openlibrary.org/search.json?q=${searchText}`
     fetch(url)
         .then(res => res.json())
@@ -32,7 +34,7 @@ const searchButton = () => {
 
 }
 
-
+// Search Results
 const bookData = (booksArray) => {
 
     const total = booksArray.num_found;
@@ -63,7 +65,7 @@ const bookData = (booksArray) => {
       <h3 class='text-danger'>${item.title}</h3>
       <h5>Author: ${item.author_name}</h5>
       <p>First Published: ${item.first_publish_year}</P>
-      <p>Publisher: ${item.publisher[0]}</p>
+      <p>Publisher: ${item.publisher}</p>
       
     </div>`;
         bookContainer.appendChild(div)
