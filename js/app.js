@@ -1,16 +1,20 @@
-const searchInput = document.getElementById('search-input')
-const searchButton = document.getElementById('search-btn')
-const totalBookfound = document.getElementById('totalBook-found')
-const bookContainer = document.getElementById('book-container')
+const searchInput = document.getElementById('search-input');
+// const searchButton = document.getElementById('search-btn')
+const totalBookfound = document.getElementById('totalBook-found');
+const bookContainer = document.getElementById('book-container');
 const errorDiv = document.getElementById('error');
+const spinner = document.getElementById('spinner')
 
 
-searchButton.addEventListener('click', function () {
+const searchButton = () => {
     const searchText = searchInput.value;
+
     if (searchText === '') {
         errorDiv.innerText = "Search Field Cannot Be Empty";
         return;
     }
+    spinner.classList.remove('d-none')
+
 
     errorDiv.innerText = '';
     searchInput.value = '';
@@ -20,22 +24,25 @@ searchButton.addEventListener('click', function () {
 
 
 
-    const url = ` http://openlibrary.org/search.json?q=${searchText}`
+    const url = ` https://openlibrary.org/search.json?q=${searchText}`
     fetch(url)
         .then(res => res.json())
         .then(data => bookData(data))
 
 
-})
+}
 
 
-function bookData(booksArray) {
+const bookData = (booksArray) => {
 
     const total = booksArray.num_found;
+    if (total === 0) {
+        errorDiv.innerText = "No results Found";
+    }
 
 
     const totalDiv = document.createElement('div');
-    totalDiv.innerHTML = `<h3>Number of Total Book Found:${total}</h3>`
+    totalDiv.innerHTML = `<h3>Number of Total Book Found: ${total}</h3>`
     totalBookfound.appendChild(totalDiv);
 
 
@@ -56,7 +63,7 @@ function bookData(booksArray) {
       <h3 class='text-danger'>${item.title}</h3>
       <h5>Author: ${item.author_name}</h5>
       <p>First Published: ${item.first_publish_year}</P>
-      <p>Publisher: ${item.publisher}</p>
+      <p>Publisher: ${item.publisher[0]}</p>
       
     </div>`;
         bookContainer.appendChild(div)
@@ -65,5 +72,6 @@ function bookData(booksArray) {
 
 
     });
+    spinner.classList.add('d-none')
 }
 
